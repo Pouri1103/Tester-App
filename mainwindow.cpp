@@ -1,5 +1,21 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QSerialPort>
+#include <QDebug>
+#include <QString>
+#include <QMessageBox>
+#include <QTimer>
+
+//-------------------------
+
+QSerialPort sLock;
+QSerialPort sGate;
+
+QByteArray NumID = "";
+QByteArray NumID2 = "";
+
+//-------------------------
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,3 +28,260 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+//#################################################################################################################################################
+        //-----Settings-----//
+//-------------------------------------------------------
+    //----Lock----
+
+void MainWindow::on_pb_disCOM_clicked()
+{
+    if (sLock.isOpen())
+        sLock.close();
+    ui->le_COM->setEnabled(1);
+}
+
+void MainWindow::on_pb_conCOM_clicked()
+{
+    if (sLock.isOpen())
+        sLock.close();
+    sLock.setPortName(ui->le_COM->text());
+    sLock.setBaudRate(QSerialPort::Baud9600);
+    sLock.setDataBits(QSerialPort::Data8);
+    sLock.setParity(QSerialPort::NoParity);
+    sLock.setStopBits(QSerialPort::OneStop);
+    sLock.setFlowControl(QSerialPort::NoFlowControl);
+
+    if (sLock.open(QIODevice::ReadWrite))
+    {
+        ui->le_COM->setDisabled(1);
+        connect(&sLock, &QSerialPort::readyRead, this, &MainWindow::readKartLock);
+    }
+    else
+        QMessageBox::critical(this,"عدم اتصال به پورت","   اتصال انجام نشد !!! \n " + sLock.errorString());
+}
+
+//-------------------------------------------------------
+//----Gate----
+
+void MainWindow::on_pb_disCOM_2_clicked()
+{
+    if (sGate.isOpen())
+        sGate.close();
+    ui->le_COM_2->setEnabled(1);
+}
+
+void MainWindow::on_pb_conCOM_2_clicked()
+{
+    if (sGate.isOpen())
+        sGate.close();
+    sGate.setPortName(ui->le_COM_2->text());
+    sGate.setBaudRate(QSerialPort::Baud9600);
+    sGate.setDataBits(QSerialPort::Data8);
+    sGate.setParity(QSerialPort::NoParity);
+    sGate.setStopBits(QSerialPort::OneStop);
+    sGate.setFlowControl(QSerialPort::NoFlowControl);
+
+    if (sGate.open(QIODevice::ReadWrite))
+    {
+        ui->le_COM_2->setDisabled(1);
+        connect(&sGate, &QSerialPort::readyRead, this, &MainWindow::readKartGate);
+    }
+    else
+        QMessageBox::critical(this,"عدم اتصال به پورت","   اتصال انجام نشد !!! \n " + sGate.errorString());
+}
+
+//#################################################################################################################################################
+//-----read kart in Locker & Gate-----//
+//-------------------------------------------------------
+
+void MainWindow::readKartLock()
+{
+    QByteArray read = sLock.readAll();
+
+    NumID.push_back(read);
+
+    if (NumID.length() == 12)
+    {
+        ui->le_lock_M->setText(NumID);
+        NumID.clear();
+    }
+    if (NumID.at(0) == '%' && NumID.at(11) == '*')
+        ui->le_OK1->setText("OK");
+    else
+        ui->le_OK1->setText("Error");
+}
+
+void MainWindow::readKartGate()
+{
+    QByteArray read = sGate.readAll();
+
+    NumID2.push_back(read);
+
+    if (NumID2.length() > 3)
+    {
+        ui->le_gate_M->setText(NumID2);
+        NumID2.clear();
+        ui->le_OK2->setText("xxxx");
+    }
+}
+
+//#################################################################################################################################################
+//-----write in Locker-----//
+//-------------------------------------------------------
+
+static int of;
+
+void MainWindow::on_pb_start_clicked()
+{
+    if (sLock.isOpen())
+    {
+        of = ui->le_of->text().toInt();
+        ui->pb_start->setDisabled(1);
+        loop();
+    } else
+        QMessageBox::critical(this,"مشکل در اتصال با ریدر کمد","  ارتباط با ریدر کمد برقرار نشد !!! \n" + sLock.errorString());
+}
+
+
+void MainWindow::loop()
+{
+    int to = ui->le_to->text().toInt();
+    int jump = ui->le_jump->text().toInt();
+    int time = ui->le_time->text().toInt();
+
+    int plus1 = ui->le_plus1->text().toInt();
+    int plus2 = ui->le_plus2->text().toInt();
+    int plus3 = ui->le_plus3->text().toInt();
+    int plus4 = ui->le_plus4->text().toInt();
+
+    if (of <= to)
+    {
+        sendSerialLock(of);
+        of += jump;
+        QTimer::singleShot(time,this,&loop);
+    }
+    else {
+        static int i = 1;
+        switch (i) {
+        case 1:
+            if (plus1 != 0)
+            {
+                sendSerialLock(plus1);
+                QTimer::singleShot(time,this,&loop);
+            } else
+                QTimer::singleShot(0,this,&loop);
+            break;
+        case 2:
+            if (plus2 != 0)
+            {
+                sendSerialLock(plus2);
+                QTimer::singleShot(time,this,&loop);
+            } else
+                QTimer::singleShot(0,this,&loop);
+            break;
+        case 3:
+            if (plus3 != 0)
+            {
+                sendSerialLock(plus3);
+                QTimer::singleShot(time,this,&loop);
+            } else
+                QTimer::singleShot(0,this,&loop);
+            break;
+        case 4:
+            if (plus4 != 0)
+            {
+                sendSerialLock(plus4);
+                QTimer::singleShot(time,this,&loop);
+            } else
+                QTimer::singleShot(0,this,&loop);
+            break;
+        default :
+            i=0;
+            ui->pb_start->setEnabled(1);
+            break;
+        }
+        i++;
+    }
+}
+
+////////////////////////////////////////////////////////////////
+
+void MainWindow::sendSerialLock(int number)
+{
+    QByteArray command;
+    command.resize(4);
+    command[0] = '$';
+    command[1] = 0x00;
+    command[2] = (char) number;
+    command[3] = '&';
+
+    if(sLock.isOpen())
+        sLock.write(command);
+    else
+        QMessageBox::critical(this,"مشکل در اتصال با ریدر کمد","  ارتباط با ریدر کمد برقرار نشد !!! \n" + sLock.errorString());
+}
+
+////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pb_lock1_clicked()
+{
+    sendSerialLock(ui->le_lock1->text().toInt());
+}
+
+void MainWindow::on_pb_lock2_clicked()
+{
+    sendSerialLock(ui->le_lock2->text().toInt());
+}
+
+void MainWindow::on_pb_lock3_clicked()
+{
+    sendSerialLock(ui->le_lock3->text().toInt());
+}
+
+void MainWindow::on_pb_lock4_clicked()
+{
+    sendSerialLock(ui->le_lock4->text().toInt());
+}
+////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pb_manualLock_clicked()
+{
+    sendSerialLock(ui->spinBox->value());
+}
+
+//#################################################################################################################################################
+//-----open & red in Gate-----//
+//-------------------------------------------------------
+
+void MainWindow::on_pb_openGate_clicked()
+{
+    QByteArray command;
+    command.append("$(");
+    command.append(0xFC);
+    command.append(0x8A);
+    command.append("000");
+    command.append(")$");
+
+    if(sGate.isOpen())
+        sGate.write(command);
+    else
+        QMessageBox::critical(this,"مشکل در اتصال با گیت","  ارتباط با گیت برقرار نشد !!! \n" + sGate.errorString());
+}
+
+
+void MainWindow::on_pb_redGate_clicked()
+{
+    QByteArray command;
+    command.append("$(");
+    command.append(0xFC);
+    command.append(0x7A);
+    command.append("000");
+    command.append(")$");
+
+    if(sGate.isOpen())
+        sGate.write(command);
+    else
+    QMessageBox::critical(this,"مشکل در اتصال با گیت","  ارتباط با گیت برقرار نشد !!! \n" + sGate.errorString());
+}
+

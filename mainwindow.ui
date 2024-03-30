@@ -69,7 +69,7 @@
           <number>20</number>
          </property>
          <property name="topMargin">
-          <number>20</number>
+          <number>10</number>
          </property>
          <property name="rightMargin">
           <number>20</number>
@@ -146,6 +146,9 @@
               </item>
               <item>
                <widget class="QLineEdit" name="le_COM">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="font">
                  <font>
                   <family>Segoe UI</family>
@@ -166,8 +169,14 @@
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
                 <property name="placeholderText">
                  <string>COM1</string>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -294,6 +303,9 @@
               </item>
               <item>
                <widget class="QLineEdit" name="le_COM_2">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="font">
                  <font>
                   <family>Segoe UI</family>
@@ -314,8 +326,14 @@
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
                 <property name="placeholderText">
                  <string>COM1</string>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -380,7 +398,7 @@
        <widget class="QGroupBox" name="groupBox_11">
         <property name="minimumSize">
          <size>
-          <width>591</width>
+          <width>621</width>
           <height>701</height>
          </size>
         </property>
@@ -402,13 +420,19 @@
           <number>20</number>
          </property>
          <property name="topMargin">
-          <number>20</number>
+          <number>10</number>
          </property>
          <property name="rightMargin">
           <number>20</number>
          </property>
          <property name="bottomMargin">
           <number>20</number>
+         </property>
+         <property name="horizontalSpacing">
+          <number>15</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>10</number>
          </property>
          <item row="2" column="1">
           <widget class="QGroupBox" name="groupBox_10">
@@ -483,7 +507,7 @@
                <number>1</number>
               </property>
               <property name="maximum">
-               <number>254</number>
+               <number>255</number>
               </property>
              </widget>
             </item>
@@ -626,7 +650,7 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QLineEdit" name="le_lock3_2">
+             <widget class="QLineEdit" name="le_lock4">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -1148,6 +1172,9 @@
       </item>
       <item row="2" column="0" colspan="3">
        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="10,1,4">
+        <property name="spacing">
+         <number>10</number>
+        </property>
         <item>
          <widget class="QGroupBox" name="groupBox_8">
           <property name="minimumSize">
@@ -1240,6 +1267,9 @@
              <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="1" column="0">
@@ -1297,6 +1327,9 @@
              <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="2" column="0">
@@ -1353,6 +1386,9 @@
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
