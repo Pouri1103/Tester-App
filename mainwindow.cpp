@@ -104,12 +104,14 @@ void MainWindow::readKartLock()
     if (NumID.length() == 12)
     {
         ui->le_lock_M->setText(NumID);
+
+        if (NumID.at(0) == '%' && NumID.at(11) == '*')
+            ui->le_OK1->setText("OK");
+        else
+            ui->le_OK1->setText("Error");
+
         NumID.clear();
     }
-    if (NumID.at(0) == '%' && NumID.at(11) == '*')
-        ui->le_OK1->setText("OK");
-    else
-        ui->le_OK1->setText("Error");
 }
 
 void MainWindow::readKartGate()
@@ -118,11 +120,11 @@ void MainWindow::readKartGate()
 
     NumID2.push_back(read);
 
-    if (NumID2.length() > 3)
+    if (NumID2.length() >= 12)
     {
         ui->le_gate_M->setText(NumID2);
         NumID2.clear();
-        ui->le_OK2->setText("xxxx");
+        ui->le_OK2->setText("OK?");
     }
 }
 
@@ -275,7 +277,7 @@ void MainWindow::on_pb_redGate_clicked()
     QByteArray command;
     command.append("$(");
     command.append(0xFC);
-    command.append(0x7A);
+    command.append(0xA8);
     command.append("000");
     command.append(")$");
 
