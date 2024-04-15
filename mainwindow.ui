@@ -47,7 +47,7 @@
        <widget class="QGroupBox" name="groupBox_7">
         <property name="minimumSize">
          <size>
-          <width>271</width>
+          <width>311</width>
           <height>441</height>
          </size>
         </property>
@@ -81,7 +81,7 @@
           <widget class="QGroupBox" name="groupBox">
            <property name="minimumSize">
             <size>
-             <width>221</width>
+             <width>261</width>
              <height>171</height>
             </size>
            </property>
@@ -125,7 +125,7 @@
              <number>10</number>
             </property>
             <item row="0" column="0" colspan="2">
-             <layout class="QHBoxLayout" name="horizontalLayout">
+             <layout class="QHBoxLayout" name="horizontalLayout" stretch="6,0">
               <item>
                <widget class="QLabel" name="label">
                 <property name="font">
@@ -145,14 +145,17 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="le_COM">
-                <property name="enabled">
-                 <bool>true</bool>
+               <widget class="QComboBox" name="cb_COM">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
                   <family>Segoe UI</family>
-                  <pointsize>19</pointsize>
+                  <pointsize>18</pointsize>
                   <italic>false</italic>
                   <bold>true</bold>
                   <underline>false</underline>
@@ -160,23 +163,8 @@
                   <kerning>true</kerning>
                  </font>
                 </property>
-                <property name="inputMask">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>COM1</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="readOnly">
-                 <bool>false</bool>
-                </property>
-                <property name="placeholderText">
-                 <string>COM1</string>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
                 </property>
                </widget>
               </item>
@@ -238,7 +226,7 @@
           <widget class="QGroupBox" name="groupBox_2">
            <property name="minimumSize">
             <size>
-             <width>221</width>
+             <width>261</width>
              <height>171</height>
             </size>
            </property>
@@ -282,7 +270,7 @@
              <number>10</number>
             </property>
             <item row="0" column="0" colspan="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="6,4">
               <item>
                <widget class="QLabel" name="label_3">
                 <property name="font">
@@ -302,14 +290,17 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="le_COM_2">
-                <property name="enabled">
-                 <bool>true</bool>
+               <widget class="QComboBox" name="cb_COM_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
                 </property>
                 <property name="font">
                  <font>
                   <family>Segoe UI</family>
-                  <pointsize>19</pointsize>
+                  <pointsize>18</pointsize>
                   <italic>false</italic>
                   <bold>true</bold>
                   <underline>false</underline>
@@ -317,23 +308,8 @@
                   <kerning>true</kerning>
                  </font>
                 </property>
-                <property name="inputMask">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>COM1</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="readOnly">
-                 <bool>false</bool>
-                </property>
-                <property name="placeholderText">
-                 <string>COM1</string>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
                 </property>
                </widget>
               </item>
@@ -1209,20 +1185,6 @@
            <property name="bottomMargin">
             <number>20</number>
            </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="font">
-              <font>
-               <family>B Nazanin</family>
-               <pointsize>20</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>ریدر کمد : </string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="1">
             <widget class="QLineEdit" name="le_lock_M">
              <property name="font">
@@ -1332,8 +1294,8 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_9">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_2">
              <property name="font">
               <font>
                <family>B Nazanin</family>
@@ -1342,53 +1304,7 @@
               </font>
              </property>
              <property name="text">
-              <string>ریدر رومیزی : </string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="le_reader_M">
-             <property name="font">
-              <font>
-               <family>Segoe UI</family>
-               <pointsize>19</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLineEdit" name="le_OK3">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Segoe UI</family>
-               <pointsize>19</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Error</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
+              <string>ریدر کمد : </string>
              </property>
             </widget>
            </item>

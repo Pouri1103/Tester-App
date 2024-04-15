@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QComboBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +25,7 @@ public:
     void readKartGate();
     void loop();
     void sendSerialLock(int number);
+    void COMs();
 
 private slots:
 

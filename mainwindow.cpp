@@ -1,10 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QSerialPort>
+#include <QSerialPortInfo>
 #include <QDebug>
 #include <QString>
 #include <QMessageBox>
 #include <QTimer>
+#include <QComboBox>
 
 //-------------------------
 
@@ -22,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    COMs();
 }
 
 MainWindow::~MainWindow()
@@ -32,20 +35,38 @@ MainWindow::~MainWindow()
 //#################################################################################################################################################
         //-----Settings-----//
 //-------------------------------------------------------
+
+void MainWindow::COMs()
+{
+    ui->cb_COM->clear();
+    ui->cb_COM_2->clear();
+
+    for (QSerialPortInfo port: QSerialPortInfo::availablePorts())
+    {
+        QString items = port.portName();
+
+        ui->cb_COM->addItem(items);
+        ui->cb_COM_2->addItem(items);
+    }
+
+}
+
+//-------------------------------------------------------
     //----Lock----
 
 void MainWindow::on_pb_disCOM_clicked()
 {
     if (sLock.isOpen())
         sLock.close();
-    ui->le_COM->setEnabled(1);
+    ui->cb_COM->setEnabled(1);
+    COMs();
 }
 
 void MainWindow::on_pb_conCOM_clicked()
 {
     if (sLock.isOpen())
         sLock.close();
-    sLock.setPortName(ui->le_COM->text());
+    sLock.setPortName(ui->cb_COM->currentText());
     sLock.setBaudRate(QSerialPort::Baud9600);
     sLock.setDataBits(QSerialPort::Data8);
     sLock.setParity(QSerialPort::NoParity);
@@ -54,7 +75,7 @@ void MainWindow::on_pb_conCOM_clicked()
 
     if (sLock.open(QIODevice::ReadWrite))
     {
-        ui->le_COM->setDisabled(1);
+        ui->cb_COM->setDisabled(1);
         connect(&sLock, &QSerialPort::readyRead, this, &MainWindow::readKartLock);
     }
     else
@@ -68,14 +89,15 @@ void MainWindow::on_pb_disCOM_2_clicked()
 {
     if (sGate.isOpen())
         sGate.close();
-    ui->le_COM_2->setEnabled(1);
+    ui->cb_COM_2->setEnabled(1);
+    COMs();
 }
 
 void MainWindow::on_pb_conCOM_2_clicked()
 {
     if (sGate.isOpen())
         sGate.close();
-    sGate.setPortName(ui->le_COM_2->text());
+    sGate.setPortName(ui->cb_COM_2->currentText());
     sGate.setBaudRate(QSerialPort::Baud9600);
     sGate.setDataBits(QSerialPort::Data8);
     sGate.setParity(QSerialPort::NoParity);
@@ -84,7 +106,7 @@ void MainWindow::on_pb_conCOM_2_clicked()
 
     if (sGate.open(QIODevice::ReadWrite))
     {
-        ui->le_COM_2->setDisabled(1);
+        ui->cb_COM_2->setDisabled(1);
         connect(&sGate, &QSerialPort::readyRead, this, &MainWindow::readKartGate);
     }
     else
@@ -97,6 +119,7 @@ void MainWindow::on_pb_conCOM_2_clicked()
 
 void MainWindow::readKartLock()
 {
+    NumID.clear();
     QByteArray read = sLock.readAll();
 
     NumID.push_back(read);
@@ -116,6 +139,7 @@ void MainWindow::readKartLock()
 
 void MainWindow::readKartGate()
 {
+    NumID2.clear();
     QByteArray read = sGate.readAll();
 
     NumID2.push_back(read);
@@ -214,9 +238,18 @@ void MainWindow::sendSerialLock(int number)
     QByteArray command;
     command.resize(4);
     command[0] = '$';
-    command[1] = 0x00;
-    command[2] = (char) number;
+    if (number >= 256)
+    {
+        command[1] = 0x01;
+        command[2] = (char) number-256;
+    }
+    else {
+        command[1] = 0x00;
+        command[2] = (char) number;
+    }
     command[3] = '&';
+
+    qDebug()<<command;
 
     if(sLock.isOpen())
         sLock.write(command);
