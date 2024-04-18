@@ -237,19 +237,49 @@ void MainWindow::sendSerialLock(int number)
 {
     QByteArray command;
     command.resize(4);
-    command[0] = '$';
-    if (number >= 256)
+    if (ui->cb_remote->isChecked())
     {
-        command[1] = 0x01;
-        command[2] = (char) number-256;
+        command[0] = '(';
+        if (number >= 256)
+        {
+            command[1] = 0x01;
+            command[2] = (char) number-256;
+        }
+        else {
+            command[1] = 0x00;
+            command[2] = (char) number;
+        }
+        command[3] = ')';
+    }
+    else if (ui->cb_offline->isChecked()) {
+        command.resize(5);
+        command[0] = '@';
+        command[1] = 'A';
+        if (number >= 256)
+        {
+            command[2] = 0x01;
+            command[3] = (char) number-256;
+        }
+        else {
+            command[2] = 0x00;
+            command[3] = (char) number;
+        }
+        command[4] = '#';
     }
     else {
-        command[1] = 0x00;
-        command[2] = (char) number;
+        command[0] = '$';
+        if (number >= 256)
+        {
+            command[1] = 0x01;
+            command[2] = (char) number-256;
+        }
+        else {
+            command[1] = 0x00;
+            command[2] = (char) number;
+        }
+        command[3] = '&';
     }
-    command[3] = '&';
 
-    qDebug()<<command;
 
     if(sLock.isOpen())
         sLock.write(command);
@@ -292,11 +322,30 @@ void MainWindow::on_pb_manualLock_clicked()
 void MainWindow::on_pb_openGate_clicked()
 {
     QByteArray command;
-    command.append("$(");
-    command.append(0xFC);
-    command.append(0x8A);
-    command.append("000");
-    command.append(")$");
+    if (ui->cb_offline->isChecked())
+    {
+        int number = ui->spinBox->value();
+        command.resize(5);
+        command[0] = '@';
+        command[1] = 'B';
+        if (number >= 256)
+        {
+            command[2] = 0x01;
+            command[3] = (char) number-256;
+        }
+        else {
+            command[2] = 0x00;
+            command[3] = (char) number;
+        }
+        command[4] = '#';
+    }
+    else {
+        command.append("$(");
+        command.append(0xFC);
+        command.append(0x8A);
+        command.append("000");
+        command.append(")$");
+    }
 
     if(sGate.isOpen())
         sGate.write(command);
@@ -308,15 +357,60 @@ void MainWindow::on_pb_openGate_clicked()
 void MainWindow::on_pb_redGate_clicked()
 {
     QByteArray command;
-    command.append("$(");
-    command.append(0xFC);
-    command.append(0xA8);
-    command.append("000");
-    command.append(")$");
+    if (ui->cb_offline->isChecked())
+    {
+        command.resize(5);
+        command[0] = '@';
+        command[1] = 'C';
+        command[2] = 0x00;
+        command[3] = 0x00;
+        command[4] = '#';
+    }
+    else {
+        command.append("$(");
+        command.append(0xFC);
+        command.append(0xA8);
+        command.append("000");
+        command.append(")$");
+    }
+
 
     if(sGate.isOpen())
         sGate.write(command);
     else
     QMessageBox::critical(this,"مشکل در اتصال با گیت","  ارتباط با گیت برقرار نشد !!! \n" + sGate.errorString());
 }
+
+//#################################################################################################################################################
+//-----offline reader-----//
+//-------------------------------------------------------
+
+void MainWindow::on_cb_remote_clicked()
+{
+    ui->cb_offline->setChecked(0);
+    ui->pb_openGate->setText("باز کردن");
+    ui->pb_redGate->setText("قرمز");
+    ui->groupBox_9->setTitle("گیت");
+}
+//-------------------------------------------------------
+
+void MainWindow::on_cb_offline_clicked(bool checked)
+{
+    ui->cb_remote->setChecked(0);
+
+    if (checked == 1)
+    {
+        ui->pb_openGate->setText("F2");
+        ui->pb_redGate->setText("F3");
+        ui->groupBox_9->setTitle("ریدر آفلاین");
+    }
+    else {
+        ui->pb_openGate->setText("باز کردن");
+        ui->pb_redGate->setText("قرمز");
+        ui->groupBox_9->setTitle("گیت");
+
+    }
+}
+
+
 
