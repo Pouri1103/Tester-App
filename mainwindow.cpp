@@ -338,6 +338,11 @@ void MainWindow::on_pb_openGate_clicked()
             command[3] = (char) number;
         }
         command[4] = '#';
+
+        if(sLock.isOpen())
+            sLock.write(command);
+        else
+            QMessageBox::critical(this,"مشکل در اتصال با ریدر کمد","  ارتباط با ریدر کمد برقرار نشد !!! \n" + sLock.errorString());
     }
     else {
         command.append("$(");
@@ -345,12 +350,13 @@ void MainWindow::on_pb_openGate_clicked()
         command.append(0x8A);
         command.append("000");
         command.append(")$");
+
+        if(sGate.isOpen())
+            sGate.write(command);
+        else
+            QMessageBox::critical(this,"مشکل در اتصال با گیت","  ارتباط با گیت برقرار نشد !!! \n" + sGate.errorString());
     }
 
-    if(sGate.isOpen())
-        sGate.write(command);
-    else
-        QMessageBox::critical(this,"مشکل در اتصال با گیت","  ارتباط با گیت برقرار نشد !!! \n" + sGate.errorString());
 }
 
 
@@ -365,6 +371,11 @@ void MainWindow::on_pb_redGate_clicked()
         command[2] = 0x00;
         command[3] = 0x00;
         command[4] = '#';
+
+        if(sLock.isOpen())
+            sLock.write(command);
+        else
+            QMessageBox::critical(this,"مشکل در اتصال با ریدر کمد","  ارتباط با ریدر کمد برقرار نشد !!! \n" + sLock.errorString());
     }
     else {
         command.append("$(");
@@ -372,13 +383,14 @@ void MainWindow::on_pb_redGate_clicked()
         command.append(0xA8);
         command.append("000");
         command.append(")$");
+
+        if(sGate.isOpen())
+            sGate.write(command);
+        else
+            QMessageBox::critical(this,"مشکل در اتصال با گیت","  ارتباط با گیت برقرار نشد !!! \n" + sGate.errorString());
     }
 
 
-    if(sGate.isOpen())
-        sGate.write(command);
-    else
-    QMessageBox::critical(this,"مشکل در اتصال با گیت","  ارتباط با گیت برقرار نشد !!! \n" + sGate.errorString());
 }
 
 //#################################################################################################################################################
