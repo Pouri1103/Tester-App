@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->cb_COM->setFocus();
     COMs();
 }
 
@@ -119,12 +120,13 @@ void MainWindow::on_pb_conCOM_2_clicked()
 
 void MainWindow::readKartLock()
 {
-    NumID.clear();
+    // if (ui->le_lock4->text() == "")
+        // NumID.clear();
     QByteArray read = sLock.readAll();
 
     NumID.push_back(read);
 
-    if (NumID.length() == 12)
+    if (NumID.length() > 10)   // if (NumID.length() == 12)
     {
         ui->le_lock_M->setText(NumID);
 
@@ -139,12 +141,13 @@ void MainWindow::readKartLock()
 
 void MainWindow::readKartGate()
 {
-    NumID2.clear();
+    // if (ui->le_lock4->text() == "")
+        // NumID2.clear();
     QByteArray read = sGate.readAll();
 
     NumID2.push_back(read);
 
-    if (NumID2.length() >= 12)
+    if (NumID2.length() > 10) // ==12
     {
         ui->le_gate_M->setText(NumID2);
         NumID2.clear();

@@ -18,7 +18,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Tester App</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="myRes.qrc">
+    <normaloff>:/Icon/icon.ico</normaloff>:/Icon/icon.ico</iconset>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
@@ -1509,6 +1513,43 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>cb_COM</tabstop>
+  <tabstop>cb_remote</tabstop>
+  <tabstop>cb_offline</tabstop>
+  <tabstop>pb_conCOM</tabstop>
+  <tabstop>pb_disCOM</tabstop>
+  <tabstop>le_of</tabstop>
+  <tabstop>le_to</tabstop>
+  <tabstop>le_jump</tabstop>
+  <tabstop>le_time</tabstop>
+  <tabstop>le_plus1</tabstop>
+  <tabstop>le_plus2</tabstop>
+  <tabstop>le_plus3</tabstop>
+  <tabstop>le_plus4</tabstop>
+  <tabstop>pb_start</tabstop>
+  <tabstop>le_lock1</tabstop>
+  <tabstop>le_lock2</tabstop>
+  <tabstop>le_lock3</tabstop>
+  <tabstop>le_lock4</tabstop>
+  <tabstop>pb_lock1</tabstop>
+  <tabstop>pb_lock2</tabstop>
+  <tabstop>pb_lock3</tabstop>
+  <tabstop>pb_lock4</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>pb_manualLock</tabstop>
+  <tabstop>cb_COM_2</tabstop>
+  <tabstop>pb_conCOM_2</tabstop>
+  <tabstop>pb_disCOM_2</tabstop>
+  <tabstop>pb_openGate</tabstop>
+  <tabstop>pb_redGate</tabstop>
+  <tabstop>le_lock_M</tabstop>
+  <tabstop>le_gate_M</tabstop>
+  <tabstop>le_OK1</tabstop>
+  <tabstop>le_OK2</tabstop>
+ </tabstops>
+ <resources>
+  <include location="myRes.qrc"/>
+ </resources>
  <connections/>
 </ui>
