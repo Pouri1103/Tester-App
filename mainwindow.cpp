@@ -120,13 +120,11 @@ void MainWindow::on_pb_conCOM_2_clicked()
 
 void MainWindow::readKartLock()
 {
-    // if (ui->le_lock4->text() == "")
-        // NumID.clear();
     QByteArray read = sLock.readAll();
 
     NumID.push_back(read);
 
-    if (NumID.length() > 10)   // if (NumID.length() == 12)
+    if (NumID.length() == 12)
     {
         ui->le_lock_M->setText(NumID);
 
@@ -137,21 +135,36 @@ void MainWindow::readKartLock()
 
         NumID.clear();
     }
+    else {
+        ui->le_lock_M->setText(NumID);
+        ui->le_OK1->setText("!=12");
+        NumID.clear();
+    }
 }
 
 void MainWindow::readKartGate()
 {
-    // if (ui->le_lock4->text() == "")
-        // NumID2.clear();
     QByteArray read = sGate.readAll();
 
     NumID2.push_back(read);
 
-    if (NumID2.length() > 10) // ==12
+    if (NumID2.length() == 12)
     {
         ui->le_gate_M->setText(NumID2);
+
+        if (NumID2.at(10) == '\n' && NumID2.at(11) == '\r')
+            ui->le_OK2->setText("OK");
+        else if (NumID2.at(10) == '\r' && NumID2.at(11) == '\n')
+            ui->le_OK2->setText("OK2");
+        else
+            ui->le_OK2->setText("OK?");
+
         NumID2.clear();
-        ui->le_OK2->setText("OK?");
+    }
+    else {
+        ui->le_gate_M->setText(NumID2);
+        ui->le_OK2->setText("!=12");
+        NumID2.clear();
     }
 }
 
