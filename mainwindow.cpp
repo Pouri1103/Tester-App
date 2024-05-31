@@ -151,7 +151,7 @@ void MainWindow::readKartGate()
     if (NumID2.length() >= 12)
     {
         ui->le_gate_M->setText(NumID2);
-        ui->le_OK2->setText("OK?");
+        ui->le_OK2->setText("OK");
 
         NumID2.clear();
     }
