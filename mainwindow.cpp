@@ -18,7 +18,6 @@ QByteArray NumID2 = "";
 
 //-------------------------
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -134,9 +133,9 @@ void MainWindow::readKartLock()
         ui->le_lock_M->setText(NumID);
 
         if (NumID.at(0) == '%' && NumID.at(11) == '*')
-            ui->le_OK1->setText("OK");
+            ui->pb_OK1->setText("OK");
         else
-            ui->le_OK1->setText("Error");
+            ui->pb_OK1->setText("Error");
 
         NumID.clear();
     }
@@ -151,23 +150,34 @@ void MainWindow::readKartGate()
     if (NumID2.length() >= 12)
     {
         ui->le_gate_M->setText(NumID2);
-        ui->le_OK2->setText("OK");
+        ui->pb_OK2->setText("OK");
 
         NumID2.clear();
     }
+}
+
+void MainWindow::on_pb_OK1_clicked()
+{
+    ui->le_lock_M->clear();
+}
+
+
+void MainWindow::on_pb_OK2_clicked()
+{
+    ui->le_gate_M->clear();
 }
 
 //#################################################################################################################################################
 //-----write in Locker-----//
 //-------------------------------------------------------
 
-static int of;
+int of;
 
 void MainWindow::on_pb_start_clicked()
 {
     if (sLock.isOpen())
     {
-        of = ui->le_of->text().toInt();
+        of = ui->sb_of->value();
         ui->pb_start->setDisabled(1);
         loop();
     } else
@@ -177,20 +187,20 @@ void MainWindow::on_pb_start_clicked()
 
 void MainWindow::loop()
 {
-    int to = ui->le_to->text().toInt();
-    int jump = ui->le_jump->text().toInt();
-    int time = ui->le_time->text().toInt();
+    int to = ui->sb_to->value();
+    int jump = ui->sb_jump->value();
+    int time = ui->sb_time->value();
 
-    int plus1 = ui->le_plus1->text().toInt();
-    int plus2 = ui->le_plus2->text().toInt();
-    int plus3 = ui->le_plus3->text().toInt();
-    int plus4 = ui->le_plus4->text().toInt();
+    int plus1 = ui->sb_plus_1->value();
+    int plus2 = ui->sb_plus_2->value();
+    int plus3 = ui->sb_plus_3->value();
+    int plus4 = ui->sb_plus_4->value();
 
     if (of <= to)
     {
         sendSerialLock(of);
         of += jump;
-        QTimer::singleShot(time,this,&loop);
+        QTimer::singleShot(time,this,&MainWindow::loop);
     }
     else {
         static int i = 1;
@@ -199,40 +209,50 @@ void MainWindow::loop()
             if (plus1 != 0)
             {
                 sendSerialLock(plus1);
-                QTimer::singleShot(time,this,&loop);
+                QTimer::singleShot(time,this,&MainWindow::loop);
             } else
-                QTimer::singleShot(0,this,&loop);
+                QTimer::singleShot(0,this,&MainWindow::loop);
             break;
         case 2:
             if (plus2 != 0)
             {
                 sendSerialLock(plus2);
-                QTimer::singleShot(time,this,&loop);
+                QTimer::singleShot(time,this,&MainWindow::loop);
             } else
-                QTimer::singleShot(0,this,&loop);
+                QTimer::singleShot(0,this,&MainWindow::loop);
             break;
         case 3:
             if (plus3 != 0)
             {
                 sendSerialLock(plus3);
-                QTimer::singleShot(time,this,&loop);
+                QTimer::singleShot(time,this,&MainWindow::loop);
             } else
-                QTimer::singleShot(0,this,&loop);
+                QTimer::singleShot(0,this,&MainWindow::loop);
             break;
         case 4:
             if (plus4 != 0)
-            {
                 sendSerialLock(plus4);
-                QTimer::singleShot(time,this,&loop);
-            } else
-                QTimer::singleShot(0,this,&loop);
             break;
         default :
-            i=0;
+            i=1;
             ui->pb_start->setEnabled(1);
             break;
         }
         i++;
+
+        if (ui->cb_repeat->isChecked() && ui->sb_repeat->value() > 0 && i == 5)
+        {
+            ui->sb_repeat->setValue(ui->sb_repeat->value() - 1);
+            of = ui->sb_of->value();
+            QTimer::singleShot(time,this,&MainWindow::loop);
+            i=1;
+        }
+        else if (i == 5)
+        {
+            i=1;
+            ui->pb_start->setEnabled(1);
+            ui->cb_repeat->setChecked(0);
+        }
     }
 }
 
@@ -245,46 +265,24 @@ void MainWindow::sendSerialLock(int number)
     if (ui->cb_remote->isChecked())
     {
         command[0] = '(';
-        if (number >= 256)
-        {
-            command[1] = 0x01;
-            command[2] = (char) number-256;
-        }
-        else {
-            command[1] = 0x00;
-            command[2] = (char) number;
-        }
+        command[1] = (char) number / 256;
+        command[2] = (char) number % 256;
         command[3] = ')';
     }
     else if (ui->cb_offline->isChecked()) {
         command.resize(5);
         command[0] = '@';
         command[1] = 'A';
-        if (number >= 256)
-        {
-            command[2] = 0x01;
-            command[3] = (char) number-256;
-        }
-        else {
-            command[2] = 0x00;
-            command[3] = (char) number;
-        }
+        command[2] = (char) number / 256;
+        command[3] = (char) number % 256;
         command[4] = '#';
     }
     else {
         command[0] = '$';
-        if (number >= 256)
-        {
-            command[1] = 0x01;
-            command[2] = (char) number-256;
-        }
-        else {
-            command[1] = 0x00;
-            command[2] = (char) number;
-        }
+        command[1] = (char) number / 256;
+        command[2] = (char) number % 256;
         command[3] = '&';
     }
-
 
     if(sLock.isOpen())
         sLock.write(command);
@@ -296,22 +294,22 @@ void MainWindow::sendSerialLock(int number)
 
 void MainWindow::on_pb_lock1_clicked()
 {
-    sendSerialLock(ui->le_lock1->text().toInt());
+    sendSerialLock(ui->sb_lock_1->value());
 }
 
 void MainWindow::on_pb_lock2_clicked()
 {
-    sendSerialLock(ui->le_lock2->text().toInt());
+    sendSerialLock(ui->sb_lock_2->value());
 }
 
 void MainWindow::on_pb_lock3_clicked()
 {
-    sendSerialLock(ui->le_lock3->text().toInt());
+    sendSerialLock(ui->sb_lock_3->value());
 }
 
 void MainWindow::on_pb_lock4_clicked()
 {
-    sendSerialLock(ui->le_lock4->text().toInt());
+    sendSerialLock(ui->sb_lock_4->value());
 }
 ////////////////////////////////////////////////////////////////
 
@@ -408,6 +406,7 @@ void MainWindow::on_cb_remote_clicked()
     ui->pb_openGate->setText("باز کردن");
     ui->pb_redGate->setText("قرمز");
     ui->groupBox_9->setTitle("گیت");
+    ui->le_lock_M->setText("");
 }
 //-------------------------------------------------------
 
@@ -420,12 +419,13 @@ void MainWindow::on_cb_offline_clicked(bool checked)
         ui->pb_openGate->setText("F2");
         ui->pb_redGate->setText("F3");
         ui->groupBox_9->setTitle("ریدر آفلاین");
+        ui->le_lock_M->setText("ثبت در حافظه");
     }
     else {
         ui->pb_openGate->setText("باز کردن");
         ui->pb_redGate->setText("قرمز");
         ui->groupBox_9->setTitle("گیت");
-
+        ui->le_lock_M->setText("");
     }
 }
 

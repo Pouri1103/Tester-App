@@ -59,10 +59,17 @@ private slots:
 
     void on_pb_redGate_clicked();
 
+    ////////////////////////////////////////////
 
     void on_cb_offline_clicked(bool checked);
 
     void on_cb_remote_clicked();
+
+    ////////////////////////////////////////////
+
+    void on_pb_OK1_clicked();
+
+    void on_pb_OK2_clicked();
 
 private:
     Ui::MainWindow *ui;

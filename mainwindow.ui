@@ -28,7 +28,7 @@
    <enum>Qt::LeftToRight</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_11" rowstretch="1,8,8,1" columnstretch="1,8,8,1">
+   <layout class="QGridLayout" name="gridLayout_11" rowstretch="1,9,9,1" columnstretch="1,9,9,1">
     <property name="leftMargin">
      <number>9</number>
     </property>
@@ -143,6 +143,12 @@
             </item>
             <item row="0" column="1">
              <widget class="QSpinBox" name="spinBox">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <family>Segoe UI</family>
@@ -160,7 +166,7 @@
                <number>1</number>
               </property>
               <property name="maximum">
-               <number>510</number>
+               <number>999</number>
               </property>
              </widget>
             </item>
@@ -256,75 +262,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLineEdit" name="le_lock1">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>Segoe UI</family>
-                <pointsize>19</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="maxLength">
-               <number>3</number>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="le_lock2">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>Segoe UI</family>
-                <pointsize>19</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="maxLength">
-               <number>3</number>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="le_lock4">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>Segoe UI</family>
-                <pointsize>19</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="maxLength">
-               <number>3</number>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <widget class="QPushButton" name="pb_lock1">
               <property name="font">
@@ -336,29 +273,6 @@
               </property>
               <property name="text">
                <string>باز کردن</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLineEdit" name="le_lock3">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <family>Segoe UI</family>
-                <pointsize>19</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="maxLength">
-               <number>3</number>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -388,6 +302,134 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="0" column="0">
+             <widget class="QSpinBox" name="sb_lock_1">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>19</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="wrapping">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QSpinBox" name="sb_lock_2">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>19</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="wrapping">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QSpinBox" name="sb_lock_3">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>19</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="wrapping">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QSpinBox" name="sb_lock_4">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>19</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="wrapping">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -426,7 +468,7 @@
            <property name="title">
             <string>باز کردن کمد خودکار</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout" stretch="5,5,1,4">
+           <layout class="QVBoxLayout" name="verticalLayout" stretch="5,5,0,1,4">
             <property name="spacing">
              <number>20</number>
             </property>
@@ -434,13 +476,13 @@
              <number>20</number>
             </property>
             <property name="topMargin">
-             <number>20</number>
+             <number>10</number>
             </property>
             <property name="rightMargin">
              <number>20</number>
             </property>
             <property name="bottomMargin">
-             <number>20</number>
+             <number>5</number>
             </property>
             <item>
              <widget class="QGroupBox" name="groupBox_4">
@@ -507,64 +549,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="le_of">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                   <pointsize>19</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="inputMask">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                 <property name="maxLength">
-                  <number>3</number>
-                 </property>
-                 <property name="cursorPosition">
-                  <number>1</number>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="le_jump">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                   <pointsize>19</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                 <property name="maxLength">
-                  <number>3</number>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="0">
                 <widget class="QLabel" name="label_7">
                  <property name="font">
@@ -593,8 +577,8 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="le_to">
+               <item row="0" column="1">
+                <widget class="QSpinBox" name="sb_of">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -608,19 +592,83 @@
                    <bold>true</bold>
                   </font>
                  </property>
-                 <property name="text">
-                  <string>22</string>
-                 </property>
-                 <property name="maxLength">
-                  <number>3</number>
+                 <property name="wrapping">
+                  <bool>false</bool>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="sb_to">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>19</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="wrapping">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                 <property name="value">
+                  <number>22</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="sb_jump">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>19</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="wrapping">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
                  </property>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QLineEdit" name="le_time">
+                <widget class="QSpinBox" name="sb_time">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -634,11 +682,23 @@
                    <bold>true</bold>
                   </font>
                  </property>
-                 <property name="text">
-                  <string>2000</string>
+                 <property name="wrapping">
+                  <bool>false</bool>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>100</number>
+                 </property>
+                 <property name="maximum">
+                  <number>3600000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>100</number>
+                 </property>
+                 <property name="value">
+                  <number>2000</number>
                  </property>
                 </widget>
                </item>
@@ -683,7 +743,7 @@
                 <number>10</number>
                </property>
                <item row="0" column="0">
-                <widget class="QLineEdit" name="le_plus1">
+                <widget class="QSpinBox" name="sb_plus_1">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -697,16 +757,25 @@
                    <bold>true</bold>
                   </font>
                  </property>
-                 <property name="maxLength">
-                  <number>3</number>
+                 <property name="wrapping">
+                  <bool>false</bool>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="le_plus2">
+                <widget class="QSpinBox" name="sb_plus_2">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -720,39 +789,25 @@
                    <bold>true</bold>
                   </font>
                  </property>
-                 <property name="maxLength">
-                  <number>3</number>
+                 <property name="wrapping">
+                  <bool>false</bool>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
                  </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="le_plus4">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>50</height>
-                  </size>
+                 <property name="minimum">
+                  <number>0</number>
                  </property>
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                   <pointsize>19</pointsize>
-                   <bold>true</bold>
-                  </font>
+                 <property name="maximum">
+                  <number>999</number>
                  </property>
-                 <property name="maxLength">
-                  <number>3</number>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                 <property name="value">
+                  <number>0</number>
                  </property>
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QLineEdit" name="le_plus3">
+                <widget class="QSpinBox" name="sb_plus_3">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -766,16 +821,109 @@
                    <bold>true</bold>
                   </font>
                  </property>
-                 <property name="maxLength">
-                  <number>3</number>
+                 <property name="wrapping">
+                  <bool>false</bool>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="sb_plus_4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>19</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="wrapping">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QCheckBox" name="cb_repeat">
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="text">
+                 <string>: تکرار خودکار</string>
+                </property>
+                <property name="autoRepeatDelay">
+                 <number>300</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="sb_repeat">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI</family>
+                  <pointsize>19</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="wrapping">
+                 <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QPushButton" name="pb_start">
@@ -849,8 +997,61 @@
            <property name="bottomMargin">
             <number>20</number>
            </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <family>B Nazanin</family>
+               <pointsize>20</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>ریدر کمد : </string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="le_gate_M">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>45</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>19</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QPushButton" name="pb_OK2">
+             <property name="minimumSize">
+              <size>
+               <width>90</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Error</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="1">
             <widget class="QLineEdit" name="le_lock_M">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>45</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <family>Segoe UI</family>
@@ -863,38 +1064,6 @@
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="le_OK1">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Segoe UI</family>
-               <pointsize>19</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Error</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -912,63 +1081,16 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="le_gate_M">
-             <property name="font">
-              <font>
-               <family>Segoe UI</family>
-               <pointsize>19</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="le_OK2">
+           <item row="0" column="2">
+            <widget class="QPushButton" name="pb_OK1">
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>90</width>
                <height>0</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Segoe UI</family>
-               <pointsize>19</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
              <property name="text">
               <string>Error</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="font">
-              <font>
-               <family>B Nazanin</family>
-               <pointsize>20</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>ریدر کمد : </string>
              </property>
             </widget>
            </item>
@@ -1519,19 +1641,7 @@
   <tabstop>cb_offline</tabstop>
   <tabstop>pb_conCOM</tabstop>
   <tabstop>pb_disCOM</tabstop>
-  <tabstop>le_of</tabstop>
-  <tabstop>le_to</tabstop>
-  <tabstop>le_jump</tabstop>
-  <tabstop>le_time</tabstop>
-  <tabstop>le_plus1</tabstop>
-  <tabstop>le_plus2</tabstop>
-  <tabstop>le_plus3</tabstop>
-  <tabstop>le_plus4</tabstop>
   <tabstop>pb_start</tabstop>
-  <tabstop>le_lock1</tabstop>
-  <tabstop>le_lock2</tabstop>
-  <tabstop>le_lock3</tabstop>
-  <tabstop>le_lock4</tabstop>
   <tabstop>pb_lock1</tabstop>
   <tabstop>pb_lock2</tabstop>
   <tabstop>pb_lock3</tabstop>
@@ -1545,11 +1655,26 @@
   <tabstop>pb_redGate</tabstop>
   <tabstop>le_lock_M</tabstop>
   <tabstop>le_gate_M</tabstop>
-  <tabstop>le_OK1</tabstop>
-  <tabstop>le_OK2</tabstop>
  </tabstops>
  <resources>
   <include location="myRes.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cb_repeat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sb_repeat</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1285</x>
+     <y>698</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1165</x>
+     <y>705</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
