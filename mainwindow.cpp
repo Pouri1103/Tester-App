@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->cb_COM->setFocus();
+    statusBar()->showMessage("Designed And Developed By POURIYA");
+
     COMs();
 }
 
