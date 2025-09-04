@@ -27,6 +27,17 @@ public:
     void sendSerialLock(int number);
     void COMs();
 
+    ////////////////////
+
+    void setSetting(int state);
+    void checkAll();
+    void setSettings();
+
+    void datasGet(int status, QString data, QString key);
+    void statusFire(int status, QString key);
+    void getDataFire(QString key);
+    void editDataFire(QString key, QString value);
+
 private slots:
 
     void on_pb_disCOM_clicked();

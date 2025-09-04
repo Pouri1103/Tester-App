@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1500</width>
+    <width>1600</width>
     <height>900</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Tester App</string>
+   <string>Tester App  v3.0</string>
   </property>
   <property name="windowIcon">
    <iconset resource="myRes.qrc">
@@ -82,7 +82,7 @@
           <number>20</number>
          </property>
          <property name="horizontalSpacing">
-          <number>15</number>
+          <number>20</number>
          </property>
          <property name="verticalSpacing">
           <number>10</number>
@@ -1626,7 +1626,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1500</width>
+     <width>1600</width>
      <height>31</height>
     </rect>
    </property>
@@ -1637,8 +1637,8 @@
   <widget class="QStatusBar" name="statusBar">
    <property name="font">
     <font>
-     <family>B Nazanin</family>
-     <pointsize>9</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>11</pointsize>
      <bold>false</bold>
     </font>
    </property>
