@@ -25,7 +25,8 @@ QByteArray NumID2 = "";
 
 
 QSettings settings("PBSoft","TesterApp");
-QString osID;
+QSettings settings2("PBSoft","RegName");
+QString nameF;
 int CountAD=0;
 QString badStr="";
 
@@ -39,7 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cb_COM->setFocus();
     statusBar()->showMessage("Designed And Developed By POURIYA");
 
-    osID = QSysInfo::machineUniqueId();
+    QString nameSetting = settings2.value("nameF").toString();
+    nameF = nameSetting.length()>2 ? nameSetting : QSysInfo::machineUniqueId();
 
     COMs();
     checkAll();
@@ -188,7 +190,10 @@ void MainWindow::on_pb_OK1_clicked()
 
 void MainWindow::on_pb_OK2_clicked()
 {
-    ui->le_gate_M->clear();
+    if (ui->le_lock_M->text() == "NAME" && ui->le_gate_M->text().length()>2)
+        settings2.setValue("nameF",ui->le_gate_M->text());
+    else
+        ui->le_gate_M->clear();
 }
 
 //#################################################################################################################################################
@@ -517,11 +522,11 @@ void MainWindow::setSettings()
 
 void MainWindow::checkAll()
 {
-    getDataFire(osID+"_DateAD");
-    getDataFire(osID+"_ErrorAD");
-    getDataFire(osID+"_CloseAD");
-    getDataFire(osID+"_OffAD");
-    getDataFire(osID+"_BadAD");
+    getDataFire(nameF+"_DateAD");
+    getDataFire(nameF+"_ErrorAD");
+    getDataFire(nameF+"_CloseAD");
+    getDataFire(nameF+"_OffAD");
+    getDataFire(nameF+"_BadAD");
 }
 
 
@@ -540,7 +545,7 @@ void MainWindow::datasGet(int status, QString data, QString key)
                 settings.setValue("CloseAD",data);
             }
             else //not exist AD
-                editDataFire(osID+"_CloseAD","0");
+                editDataFire(nameF+"_CloseAD","0");
         }
 
 
@@ -551,7 +556,7 @@ void MainWindow::datasGet(int status, QString data, QString key)
                 settings.setValue("OffAD",data);
             }
             else //not exist AD
-                editDataFire(osID+"_OffAD","0");
+                editDataFire(nameF+"_OffAD","0");
         }
 
 
@@ -562,7 +567,7 @@ void MainWindow::datasGet(int status, QString data, QString key)
                 settings.setValue("BadAD",data);
             }
             else //not exist AD
-                editDataFire(osID+"_BadAD","0");
+                editDataFire(nameF+"_BadAD","0");
         }
 
 
@@ -573,7 +578,7 @@ void MainWindow::datasGet(int status, QString data, QString key)
                 settings.setValue("DateAD",data);
             }
             else //not exist AD
-                editDataFire(osID+"_DateAD","0");
+                editDataFire(nameF+"_DateAD","0");
         }
 
 
@@ -584,7 +589,7 @@ void MainWindow::datasGet(int status, QString data, QString key)
                 settings.setValue("ErrorAD",data);
             }
             else //not exist AD
-                editDataFire(osID+"_ErrorAD","System runtime entered a transient instability phase without convergence.");
+                editDataFire(nameF+"_ErrorAD","System runtime entered a transient instability phase without convergence.");
         }
     }
 }
@@ -602,7 +607,7 @@ void MainWindow::statusFire(int status, QString key)
 
 void MainWindow::getDataFire(QString key)
 {
-    key = osID+"/"+key;
+    key = nameF+"/"+key;
     QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
     QUrl url;
@@ -628,7 +633,7 @@ void MainWindow::getDataFire(QString key)
 
 void MainWindow::editDataFire(QString key, QString value)
 {
-    key = osID+"/"+key;
+    key = nameF+"/"+key;
     QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
     QUrl url("https://firebaseproxy.onrender.com/edit/P8");
