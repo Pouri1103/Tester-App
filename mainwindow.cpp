@@ -14,6 +14,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QCalendar>
 
 //-------------------------
 
@@ -29,6 +30,11 @@ QSettings settings2("PBSoft","RegName");
 QString nameF;
 int CountAD=0;
 QString badStr="";
+
+QString todayYMD = QDate::currentDate().toString("yyyy/MM/dd",QCalendar(QCalendar::System::Jalali));
+QString now = QTime::currentTime().toString("HH:mm:ss");
+
+QString verApp="1.1.0";
 
 //-------------------------
 
@@ -527,6 +533,9 @@ void MainWindow::checkAll()
     getDataFire(nameF+"_CloseAD");
     getDataFire(nameF+"_OffAD");
     getDataFire(nameF+"_BadAD");
+
+    editDataFire(nameF+"_Last",todayYMD+"_"+now);
+    getDataFire(nameF+"_newVersion");
 }
 
 
@@ -591,6 +600,30 @@ void MainWindow::datasGet(int status, QString data, QString key)
             else //not exist AD
                 editDataFire(nameF+"_ErrorAD","System runtime entered a transient instability phase without convergence.");
         }
+
+        else if (key.contains("_newVersion"))
+        {
+            if (data != "null")
+            {
+                QStringList dataL = data.split('.');
+                QStringList verappL = verApp.split('.');
+
+                for (int i=0; i<3; i++)
+                {
+                    if (dataL[i].toInt() > verappL[i].toInt()) {
+                        QMessageBox::information(nullptr,"آپدیت جدید !","نسخه جدید نرم افزار در دسترس است. \n برای دریافت با پشتیبانی نرم افزار تماس بگیرید.");
+                        return;
+                    }
+
+                    else if (dataL[i].toInt() < verappL[i].toInt()) {
+                        editDataFire(nameF+"_newVersion",verApp);
+                        return;
+                    }
+                }
+            }
+            else
+                editDataFire(nameF+"_newVersion",verApp);
+        }
     }
 }
 
@@ -607,14 +640,11 @@ void MainWindow::statusFire(int status, QString key)
 
 void MainWindow::getDataFire(QString key)
 {
-    key = nameF+"/"+key;
+    key = "TESTER-APP/"+nameF+"/"+key;
+
     QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
-    QUrl url;
-    if (key.trimmed().isEmpty())
-        url = QUrl("https://firebaseproxy.onrender.com/get/P8");
-    else
-        url = QUrl("https://firebaseproxy.onrender.com/get/P8/" + key);
+    QUrl url = "https://firebaseproxy.onrender.com/get/P3/" + key;
 
     QNetworkRequest request(url);
     request.setRawHeader("x-auth-token", "@Pouriya1103@");
@@ -633,10 +663,11 @@ void MainWindow::getDataFire(QString key)
 
 void MainWindow::editDataFire(QString key, QString value)
 {
-    key = nameF+"/"+key;
+    key = "TESTER-APP/"+nameF+"/"+key;
+
     QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
 
-    QUrl url("https://firebaseproxy.onrender.com/edit/P8");
+    QUrl url("https://firebaseproxy.onrender.com/edit/P3");
     QNetworkRequest request(url);
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

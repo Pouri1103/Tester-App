@@ -18,7 +18,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Tester App  v3.1</string>
+   <string>Tester App  v3.2</string>
   </property>
   <property name="windowIcon">
    <iconset resource="myRes.qrc">
@@ -1638,8 +1638,8 @@
    <property name="font">
     <font>
      <family>Segoe UI</family>
-     <pointsize>12</pointsize>
-     <bold>false</bold>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
     </font>
    </property>
   </widget>
