@@ -34,7 +34,7 @@ QString badStr="";
 QString todayYMD = QDate::currentDate().toString("yyyy/MM/dd",QCalendar(QCalendar::System::Jalali));
 QString now = QTime::currentTime().toString("HH:mm:ss");
 
-QString verApp="1.1.0";
+QString verApp="4.0.0";
 
 //-------------------------
 
@@ -300,22 +300,22 @@ void MainWindow::sendSerialLock(int number)
     if (ui->cb_remote->isChecked())
     {
         command[0] = '(';
-        command[1] = (char) number / 256;
-        command[2] = (char) number % 256;
+        command[1] = number / 256;
+        command[2] = number % 256;
         command[3] = ')';
     }
     else if (ui->cb_offline->isChecked()) {
         command.resize(5);
         command[0] = '@';
         command[1] = 'A';
-        command[2] = (char) number / 256;
-        command[3] = (char) number % 256;
+        command[2] = number / 256;
+        command[3] = number % 256;
         command[4] = '#';
     }
     else {
         command[0] = '$';
-        command[1] = (char) number / 256;
-        command[2] = (char) number % 256;
+        command[1] = number / 256;
+        command[2] = number % 256;
         command[3] = '&';
     }
 
@@ -349,6 +349,7 @@ void MainWindow::on_pb_lock4_clicked()
 {
     sendSerialLock(ui->sb_lock_4->value());
 }
+
 ////////////////////////////////////////////////////////////////
 
 void MainWindow::on_pb_manualLock_clicked()
@@ -369,15 +370,8 @@ void MainWindow::on_pb_openGate_clicked()
         command.resize(5);
         command[0] = '@';
         command[1] = 'B';
-        if (number >= 256)
-        {
-            command[2] = 0x01;
-            command[3] = (char) number-256;
-        }
-        else {
-            command[2] = 0x00;
-            command[3] = (char) number;
-        }
+        command[2] = number / 256;
+        command[3] = number % 256;
         command[4] = '#';
 
 
@@ -457,8 +451,12 @@ void MainWindow::on_pb_redGate_clicked()
 void MainWindow::on_cb_remote_clicked()
 {
     ui->cb_offline->setChecked(0);
+
     ui->pb_openGate->setText("باز کردن");
     ui->pb_redGate->setText("قرمز");
+    ui->pb_openGate->setFont(QFont("B Nazanin",19));
+    ui->pb_redGate->setFont(QFont("B Nazanin",19));
+
     ui->groupBox_9->setTitle("گیت");
     ui->le_lock_M->setText("");
 }
@@ -470,14 +468,20 @@ void MainWindow::on_cb_offline_clicked(bool checked)
 
     if (checked == 1)
     {
-        ui->pb_openGate->setText("F2");
-        ui->pb_redGate->setText("F3");
+        ui->pb_openGate->setText("F2-Add");
+        ui->pb_redGate->setText("F3-All");
+        ui->pb_openGate->setFont(QFont("Segoe UI",17));
+        ui->pb_redGate->setFont(QFont("Segoe UI",17));
+
         ui->groupBox_9->setTitle("ریدر آفلاین");
         ui->le_lock_M->setText("ثبت در حافظه");
     }
     else {
         ui->pb_openGate->setText("باز کردن");
         ui->pb_redGate->setText("قرمز");
+        ui->pb_openGate->setFont(QFont("B Nazanin",19));
+        ui->pb_redGate->setFont(QFont("B Nazanin",19));
+
         ui->groupBox_9->setTitle("گیت");
         ui->le_lock_M->setText("");
     }
